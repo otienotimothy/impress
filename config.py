@@ -6,3 +6,9 @@ class DevConfig(Config):
 
 class ProdConfig(Config):
     pass
+
+
+config_options = {
+    'development': DevConfig,
+    'production': ProdConfig
+}

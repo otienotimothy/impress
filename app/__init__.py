@@ -1,12 +1,17 @@
 from flask import Flask
 from config import config_options
 
-def create_app(config_name):
+def create_app():
 
     app = Flask(__name__)
 
     # Add App Configs
-    app.config.from_object(config_options[config_name])
+    if app.config['ENV'] == 'development':
+        app.config.from_object(config_options['development'])
+    elif app.config['ENV'] == 'testing':
+        app.config.from_object(config_options['testing'])
+    else:
+        app.config.from_object(config_options['production'])
 
     # Register App Blueprints
     from .main.auth import auth

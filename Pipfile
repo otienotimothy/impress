@@ -9,6 +9,7 @@ flask-wtf = "*"
 wtforms = {extras = ["email"], version = "*"}
 flask-sqlalchemy = "*"
 flask-login = "*"
+flask-migrate = "*"
 
 [dev-packages]
 autopep8 = "*"

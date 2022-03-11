@@ -1,5 +1,8 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from config import config_options
+
+db = SQLAlchemy()
 
 def create_app():
 
@@ -12,6 +15,9 @@ def create_app():
         app.config.from_object(config_options['testing'])
     else:
         app.config.from_object(config_options['production'])
+
+    # Initialize Database
+    db.init_app(app)
 
     # Register App Blueprints
     from .main.auth import auth

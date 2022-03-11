@@ -4,7 +4,7 @@ from .forms import Signup, Login
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     login = Login()
 

@@ -8,6 +8,7 @@ flask = "*"
 flask-wtf = "*"
 wtforms = {extras = ["email"], version = "*"}
 flask-sqlalchemy = "*"
+flask-login = "*"
 
 [dev-packages]
 autopep8 = "*"

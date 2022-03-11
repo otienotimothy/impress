@@ -1,8 +1,8 @@
-
-
+import os
 
 class Config:
-    SECRET_KEY = '39a73536c3a5f91b2af5dc868c6bc5bcda54cc76a672479dcfb5372e8de687f5'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 class DevConfig(Config):
     DEBUG = True

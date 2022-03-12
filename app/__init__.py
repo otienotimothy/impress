@@ -17,6 +17,8 @@ def create_app():
     else:
         app.config.from_object(config_options['production'])
 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
     # Initialize Database
     db.init_app(app)
 

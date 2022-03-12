@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from config import config_options
 
 db = SQLAlchemy()
@@ -19,6 +20,7 @@ def create_app():
     # Initialize Database
     db.init_app(app)
 
+
     # Register App Blueprints
     from .main.auth import auth
     from .main.views import views
@@ -26,5 +28,8 @@ def create_app():
     app.register_blueprint(views)
     app.register_blueprint(auth, url_prefix='/auth') 
 
+    from .models import User
+
+    Migrate(app, db)
 
     return app

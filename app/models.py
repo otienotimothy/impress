@@ -1,7 +1,9 @@
-from enum import unique
 from . import db
 
 class User(db.Model):
-    id = db.column(db.Integer, primary_key = True)
+
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(150), unique = True)
     password = db.Column(db.String(150))

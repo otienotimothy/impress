@@ -1,7 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 
-<h2 class="text-center"> A List of Amazing Pitches </h2>
+<h2 class="text-center text-primary"> {{title}} </h2>
 <div class="d-flex justify-content-around">
+    
 	{% for pitch in pitches %}
 	<div class="card border-dark mb-3" style="width: 30%;">
 		<div class="card-header d-flex justify-content-between align-items-center">
@@ -12,6 +13,7 @@
 		</div>
 	</div>
 	{% endfor %}
+
 </div>
 
 {% endblock %}

@@ -9,7 +9,23 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def index():
     pitches = Pitch.query.all()
-    return render_template('index.html', pitches = pitches )
+    title = 'A List of Amazing Pitches'
+    return render_template('index.html', title=title, pitches = pitches )
+
+@views.route('/pitches/<category>')
+def search_by_category(category):
+    
+    if category == 'pick_up':
+        title_text = 'Pick Up Lines'
+    elif category == 'product':
+        title_text = 'Product Pitches'
+    else:
+        title_text = 'Sales Pitches'
+
+    pitches = Pitch.query.filter_by(pitch_category=category).all()
+
+    title = f'A list of Amazing {title_text} '
+    return render_template('index.html', title=title, pitches=pitches)
 
 
 @views.route('/add_pitch', methods= ['GET', 'POST'])

@@ -10,6 +10,8 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     pitches = db.relationship('Pitch', backref = 'user', passive_deletes= True, lazy='dynamic')
+    comments = db.relationship('Comment', backref='user',
+                              passive_deletes=True, lazy='dynamic')
 
 
 class Pitch(db.Model):
@@ -20,3 +22,17 @@ class Pitch(db.Model):
     pitch = db.Column(db.Text, nullable = False)
     pitch_category = db.Column(db.String(128))
     author = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable = False )
+    comments = db.relationship('Comment', backref='pitch',
+                              passive_deletes=True, lazy='dynamic')
+
+
+class Comment(db.Model):
+
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.String(200), nullable=False)
+    comment_author = db.Column(db.Integer, db.ForeignKey(
+        'users.id', ondelete='CASCADE'), nullable=False)
+    comment_pitch = db.Column(db.Integer, db.ForeignKey(
+        'pitches.id', ondelete='CASCADE'), nullable=False)

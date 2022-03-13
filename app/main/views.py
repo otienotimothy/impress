@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
-from .forms import Create_pitch
-from app.models import Pitch
+from .forms import Create_pitch, Add_comment
+from app.models import Pitch, Comment
 from app import db
 
 views = Blueprint('views', __name__)
@@ -10,7 +10,8 @@ views = Blueprint('views', __name__)
 def index():
     pitches = Pitch.query.all()
     title = 'A List of Amazing Pitches'
-    return render_template('index.html', title=title, pitches = pitches )
+    create_comment = Add_comment()
+    return render_template('index.html', title=title, pitches=pitches, create_comment=create_comment)
 
 @views.route('/pitches/<category>')
 def search_by_category(category):
@@ -54,6 +55,34 @@ def user_pitches():
     pitches = Pitch.query.filter_by(author=current_user.id)
     title = 'My Pitches'
     return render_template('user_posts.html', title =title, pitches = pitches)
+
+@views.route('/add_comment/<pitch_id>', methods=['POST'])
+@login_required
+def add_comment(pitch_id):
+
+    pitches = Pitch.query.all()
+    title = 'A List of Amazing Pitches'
+
+    create_comment = Add_comment()
+
+    pitch = Pitch.query.filter_by(id = pitch_id).first()
+
+    if pitch:
+        comment = request.form.get('comment')
+
+        comment_item = Comment(comment=comment, comment_author = current_user.id, comment_pitch = pitch.id)
+        db.session.add(comment_item)
+        db.session.commit()
+
+        flash('Comment Added Successfully', 'success')
+
+        print(pitch.comments)
+
+    else:
+        flash(f'The Pitch you are trying to comment on does not exist', 'danger')
+
+    return render_template('index.html', title=title, pitches=pitches, create_comment = create_comment)
+
 
 
 @views.route('/delete/<pitch_id>')

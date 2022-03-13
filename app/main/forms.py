@@ -35,3 +35,8 @@ class Create_pitch(FlaskForm):
     pitch = TextAreaField('What\'s your Pitch', validators=[InputRequired()])
 
     submit = SubmitField('Create')
+
+class Add_comment(FlaskForm):
+    comment = StringField('Comment', validators=[InputRequired(), Length(max=200)])
+
+    submit = SubmitField('Comment')

@@ -30,3 +30,27 @@ def add_pitch():
         pitch.pitch.data = " "
 
     return render_template('add_pitch.html', title= 'Add Pitch', new_pitch = pitch)
+
+@views.route('/my_pitches')
+@login_required
+def user_pitches():
+    pitches = Pitch.query.filter_by(author=current_user.id)
+    title = 'My Pitches'
+    return render_template('user_posts.html', title =title, pitches = pitches)
+
+
+@views.route('/delete/<pitch_id>')
+@login_required
+def delete_pitch(pitch_id):
+    pitches = Pitch.query.filter_by(author=current_user.id)
+    title = 'My Pitches'
+    pitch = Pitch.query.filter_by(id = pitch_id).first()
+
+    if pitch:
+        db.session.delete(pitch)
+        db.session.commit()
+        flash('Pitch has been successfully deleted', 'success')
+    else:
+        flash('Selected Pitch does not exist', 'danger')
+
+    return render_template('user_posts.html', title=title, pitches=pitches)

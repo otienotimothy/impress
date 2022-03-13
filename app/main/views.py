@@ -8,7 +8,8 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def index():
-    return render_template('index.html')
+    pitches = Pitch.query.all()
+    return render_template('index.html', pitches = pitches )
 
 
 @views.route('/add_pitch', methods= ['GET', 'POST'])

@@ -1,1 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+
+<h2 class="text-center"> A List of Amazing Pitches </h2>
+<div class="d-flex justify-content-around">
+	{% for pitch in pitches %}
+	<div class="card border-dark mb-3" style="width: 30%;">
+		<div class="card-header d-flex justify-content-between align-items-center">
+			<h5>{{pitch.pitch_category}}</h5>
+		</div>
+		<div class="card-body">
+			<div class="card-text">{{pitch.pitch}}</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

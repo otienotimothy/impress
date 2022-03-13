@@ -18,7 +18,7 @@ class Signup(FlaskForm):
 class Login(FlaskForm):
     email = StringField('Enter Email', validators=[InputRequired(), Email()])
 
-    password = PasswordField('Enter a Password', validators=[InputRequired()])
+    password = PasswordField('Enter a Password', validators=[InputRequired(), Length(min=8)])
 
     remember = BooleanField('Remember Me')
 

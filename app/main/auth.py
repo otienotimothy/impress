@@ -1,6 +1,7 @@
-from crypt import methods
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, request
+from werkzeug.security import  generate_password_hash, check_password_hash
 from .forms import Signup, Login
+from app.models import User
 
 auth = Blueprint('auth', __name__)
 
@@ -9,8 +10,23 @@ def login():
     login = Login()
 
     if login.validate_on_submit():
-        flash(f'You have been Successfully logged in', 'success')
-        return redirect(url_for('views.index'))
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember_me = request.form.get('remember')
+
+        email_exist = User.query.filter_by(email = email).first()
+
+        if email_exist:
+            if check_password_hash(User.password, password):
+                flash(f'You have been Successfully logged in', 'success')
+                return redirect(url_for('views.index'))
+            else: 
+                flash('You have Entered the wrong password', 'danger')
+                return render_template('login.html', title='Login', login=login)
+        else:
+            flash('The Email you entered does not exist', 'danger')
+            return render_template('login.html', title='Login', login=login)
+
 
     return render_template('login.html', title = 'Login', login = login)
 

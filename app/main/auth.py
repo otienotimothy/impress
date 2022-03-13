@@ -41,6 +41,7 @@ def signup():
     if signup.validate_on_submit():
 
         email = request.form.get('email')
+        username = request.form.get('username')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
@@ -56,7 +57,7 @@ def signup():
 
             if password == confirm_password:
                 password_hash = generate_password_hash(password)
-                user = User(email=email, password=password_hash)
+                user = User(email=email, username=username, password=password_hash)
                 db.session.add(user)
                 db.session.commit()
 

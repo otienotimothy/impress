@@ -37,7 +37,6 @@ def create_app():
 
     # Authenticate User
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
     # Load User Session

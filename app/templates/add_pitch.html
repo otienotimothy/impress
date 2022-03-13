@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block content %}
+
+<div>
+	<h2 class="text-center text-primary my-3">{{ title }}</h2>
+	<hr />
+	<form action="" method="POST">
+		{{ new_pitch.hidden_tag() }}
+		<div class="form-group mt-3">
+			{{ new_pitch.pitch_category.label(class='form-control-label text-primary') }}
+
+			{% if new_pitch.pitch_category.errors %}
+				{{ new_pitch.pitch_category(class='form-select form-select-lg is-invalid') }}
+				<div class="invalid-feedback">
+					{% for error in login.email.errors %}
+						<span>
+							{{error}}
+						</span>
+					{% endfor %}
+				</div>
+
+				{% else %}
+
+				{{ new_pitch.pitch_category(class='form-select form-select-lg mb-3') }}
+
+			{% endif %}
+
+			{{ new_pitch.pitch.label(class='form-control-label text-primary') }}
+
+			{% if new_pitch.pitch.errors %}
+				{{ new_pitch.pitch(class='form-control form-control-lg is-invalid') }}
+				<div class="invalid-feedback">
+					{% for error in login.email.errors %}
+						<span>
+							{{error}}
+						</span>
+					{% endfor %}
+				</div>
+
+				{% else %}
+
+				{{ new_pitch.pitch(class='form-control form-control-lg') }}
+
+			{% endif %}
+		</div>
+		<div class="mt-3">
+			{{ new_pitch.submit(class='btn btn-outline-primary')}}
+		</div>
+	</form>
+</div>
+
+{% endblock %}

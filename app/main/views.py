@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, redirect, render_template, request, flash, url_for
 from flask_login import login_required, current_user
 from .forms import Create_pitch, Add_comment
-from app.models import Pitch, Comment
+from app.models import Like, Pitch, Comment
 from app import db
 
 views = Blueprint('views', __name__)
@@ -24,9 +24,9 @@ def search_by_category(category):
         title_text = 'Sales Pitches'
 
     pitches = Pitch.query.filter_by(pitch_category=category).all()
-
+    create_comment = Add_comment()
     title = f'A list of Amazing {title_text} '
-    return render_template('index.html', title=title, pitches=pitches)
+    return render_template('index.html', title=title, pitches=pitches, create_comment=create_comment)
 
 
 @views.route('/add_pitch', methods= ['GET', 'POST'])
@@ -60,10 +60,10 @@ def user_pitches():
 @login_required
 def add_comment(pitch_id):
 
-    pitches = Pitch.query.all()
-    title = 'A List of Amazing Pitches'
+    # pitches = Pitch.query.all()
+    # title = 'A List of Amazing Pitches'
 
-    create_comment = Add_comment()
+    # create_comment = Add_comment()
 
     pitch = Pitch.query.filter_by(id = pitch_id).first()
 
@@ -76,12 +76,13 @@ def add_comment(pitch_id):
 
         flash('Comment Added Successfully', 'success')
 
-        print(pitch.comments)
+
 
     else:
         flash(f'The Pitch you are trying to comment on does not exist', 'danger')
 
-    return render_template('index.html', title=title, pitches=pitches, create_comment = create_comment)
+    # return render_template('index.html', title=title, pitches=pitches, create_comment = create_comment)
+    return redirect(url_for('views.index'))
 
 
 
@@ -100,3 +101,23 @@ def delete_pitch(pitch_id):
         flash('Selected Pitch does not exist', 'danger')
 
     return render_template('user_posts.html', title=title, pitches=pitches)
+
+
+@views.route('/likes/<pitch_id>')
+@login_required
+def like_pitch(pitch_id):
+    pitch = Pitch.query.filter_by(id=pitch_id).first()
+    liked = Like.query.filter_by(like_author = current_user.id, like_pitch= pitch.id).first()
+
+    if pitch:
+        if liked:
+            db.session.delete(liked)
+            db.session.commit()
+        else:
+            like_pitch = Like(like_author= current_user.id, like_pitch = pitch.id)
+            db.session.add(like_pitch)
+            db.session.commit()
+    else:
+        flash('The Post you\'re trying to like does not exist anymore', 'danger')
+
+    return redirect(url_for('views.index'))

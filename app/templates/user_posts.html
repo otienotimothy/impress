@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
 <h2 class="text-center">{{current_user.username}} Post's</h2>
-<div class="d-flex justify-content-around">
+<div class="d-flex justify-content-around flex-wrap">
 	{% for pitch in pitches %}
 	<div class="card border-dark mb-3" style="width: 30%;">
 		<div class="card-header d-flex justify-content-between align-items-center">

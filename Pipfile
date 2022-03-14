@@ -11,6 +11,7 @@ flask-sqlalchemy = "*"
 flask-login = "*"
 flask-migrate = "*"
 psycopg2 = "*"
+gunicorn = "*"
 
 [dev-packages]
 autopep8 = "*"

@@ -19,6 +19,7 @@ def create_app():
         app.config.from_object(config_options['testing'])
     else:
         app.config.from_object(config_options['production'])
+        app.config['SECRET_KEY'] = '39a73536c3a5f91b2af5dc868c6bc5bcda54cc76a672479dcfb5372e8de687f5'
         URI = os.environ.get('DATABASE_URL')
         if URI.startswith('postgres://'):
             URI = URI.replace('postgres://', 'postgresql://', 1)
